@@ -30,7 +30,6 @@ const list = (req, res) => {
                 "_id": statement._id,
                 "created": getFormatDate(statement.created),
                 "description": statement.description,
-                "category": statement.category,
                 "amount": (statement.assortment ? 1 : -1) * statement.amount,
             });
         });

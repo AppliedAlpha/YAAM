@@ -43,7 +43,6 @@
           <th> </th>
           <th>Date</th>
           <th>Description</th>
-          <th>Category</th>
           <th>Amount</th>
         </tr>
         </thead>
@@ -67,7 +66,6 @@
           {},
           {"data": "created"},
           {"data": "description"},
-          {"data": "category"},
           {"data": "amount"},
         ],
         columnDefs: [{
@@ -88,7 +86,25 @@
       }).done((result) => {
         document.getElementById("today_income").innerText = "오늘의 수입: " + result["today_in"].toString();
         document.getElementById("today_outcome").innerText = "오늘의 지출: " + result["today_out"].toString();
-        document.getElementById("diff").innerText = result["month"].toString() + "월의 자산변동: " + result["month_diff"].toString();
+        document.getElementById("diff").innerText =
+            result["month"].toString() + "월의 자산변동: " + result["month_diff"].toString();
+
+          //doughnut
+          var ctxD = document.getElementById("doughnutChart").getContext('2d');
+          var myLineChart = new Chart(ctxD, {
+              type: 'doughnut',
+              data: {
+                  labels: ["Income", "Outcome"],
+                  datasets: [{
+                      data: [result["today_in"], result["today_out"]],
+                      backgroundColor: ["#F7464A", "#46BFBD"],
+                      hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+                  }]
+              },
+              options: {
+                  responsive: true
+              }
+          });
       }).fail((request, status, error) => {
         alert(request.responseText);
       });
@@ -121,23 +137,6 @@
             alert(request.responseText);
           });
         }
-      }
-    });
-
-    //doughnut
-    var ctxD = document.getElementById("doughnutChart").getContext('2d');
-    var myLineChart = new Chart(ctxD, {
-      type: 'doughnut',
-      data: {
-        labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
-        datasets: [{
-          data: [300, 50, 100, 40, 120],
-          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-        }]
-      },
-      options: {
-        responsive: true
       }
     });
 
