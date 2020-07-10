@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  <%- include("../footer"); %>
+  <!-- Start your project here-->
+
+  <%
+  function getFormatDate(date){
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth());
+    var day = date.getDate();
+
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+    return year + '-' + month + '-' + day;
+  }
+  %>
+
+  <button type="button" class="btn btn-purple btn-md"
+  onclick="location.href='/api/statement/new'"
+  >Add</button>
+  <button type="button" class="btn btn-cyan btn-md"
+          id="view">Detail/Modify</button>
+  <button type="button" class="btn btn-red btn-md"
+          id="deleteBtn">Delete</button>
+
+  <div class="container">
+    <div class="jumbotron"></div>
+  </div>
+  <div class="container">
+    <div class="ZipDatatable">
+      <table id="StatementTable" class="table table-sm">
+        <thead>
+        <tr>
+          <!-- < % if (role) {% ><th>Writer</th>< % } % > -->
+          <th> </th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <% result.forEach(statement => { %>
+        <tr>
+          <!-- < % if (role) {% > <td>< %= statement.email % > </td> < % } % > -->
+          <td><input type="radio" name="st_check" value=<%= statement._id %>></td>
+          <td> <%= getFormatDate(statement.created) %></td>
+          <td> <%= statement.description %></td>
+          <td> <%= statement.category %></td>
+          <td> <%= (statement.assortment ? "+" : "-") + statement.amount %></td>
+        </tr>
+        <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    $(document).ready(() => {
+      $('input[name="st_check"]:checked').val(['']);
+      $('#StatementTable').DataTable({
+        paging: true,
+        pagingtype: "simple_numbers",
+      });
+    });
+
+    $('#view').click(() => {
+      var checkedSt = $('input[name="st_check"]:checked').val();
+      console.log(checkedSt);
+      if (checkedSt === undefined) {
+        alert("선택된 게 없습니다!");
+      }
+      else location.href = "/api/statement/" + checkedSt;
+    });
+
+    $("#deleteBtn").on("click", () => {
+      var checkedSt = $('input[name="st_check"]:checked').val();
+      console.log(checkedSt);
+      if (checkedSt === undefined) {
+        alert("선택된 게 없습니다!");
+      }
+      else {
+        const result = confirm("Are you sure to delete?");
+        if (result) {
+          $.ajax({
+            url: "/api/statement/" + checkedSt,
+            type: "DELETE"
+          }).done(() => {
+            alert("Successfully Deleted.");
+            location.reload();
+          }).fail((request, status, error) => {
+            alert(request.responseText);
+          });
+        }
+      }
+    });
+
+  </script>
+
+  <!-- End your project here-->
+
+</body>
+</html>

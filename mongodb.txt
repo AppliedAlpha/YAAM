@@ -1,0 +1,44 @@
+1. 관계형 데이터베이스(RDB) : Oracle, MySQL, MariaDB, PostgreSQL
+- 테이블 스키마가 고정됨
+- SQL로 CRUD 처리를 함
+
+2. NoSQL(non SQL, Not Only SQL) : MongoDB
+- 스키마가 유동적임
+- 단순 검색 및 추가에 용이함
+- 빅데이터, 분산 처리에 용이
+
+3. MongoDB 설치
+- mongodb.com 사이트에서 다운로드 설치
+- compass 설치 (GUI 도구)
+- PATH 환경변수에 추가
+- mongo --version
+
+4. mongoDB 시작
+- (Server 실행) mongod --dbpath=data
+- (Client 실행) mongo
+
+5. mongoDB command
+- db
+- show dbs
+- use "db명"
+- db.createCollection("컬렉션명")
+- show collections
+- db.컬렉션명.drop()
+
+- db.music.insert({ ... })
+- db.music.find().pretty()
+- db.music.find({ ... }) // 중괄호 안에 조회 조건
+- db.music.find({}, {key1: 0, key2: 1}) // key1은 안 나오고 key2만 나옴
+- db.music.find().limit(조회 건수)
+
+- db.music.update({조회 조건}, {수정 데이터})
+- db.music.update({조회 조건}, {$set: {수정 데이터}})
+
+- db.music.remove({})
+- db.music.remove({삭제조건})
+
+6.ODM(Object Data Mapping) 도구 - Mongoose
+- npm i mongoose
+- mongoose.connection 설정
+- Schema 생성 (models/music.js)
+- model 생성

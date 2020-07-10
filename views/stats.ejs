@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("header"); %>
+<body>
+<%- include("menu"); %>
+<%- include("footer"); %>
+<!-- Start your project here-->
+
+<div class="container">
+    <div class="m-2"></div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <label>수입/지출 그래프</label>
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-purple btn-md"
+        onclick="location.href='/api/statement/'"
+>List</button>
+
+<script>
+    $(document).ready(() => {
+        $.ajax({
+            url: "/api/stats/get",
+            type: "GET",
+        }).done((result) => {
+            var label = [];
+            var income_data = [];
+            var outcome_data = [];
+
+            result.forEach(statement => {
+                label.push(statement.month.toString() + "/" + statement.date.toString());
+                income_data.push(statement.income);
+                outcome_data.push(statement.outcome);
+            });
+
+            var ctxL = document.getElementById("lineChart").getContext('2d');
+            var resChart = new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: label, //["January", "February", "March", "April", "May", "June", "July"],
+                    datasets: [
+                        {
+                            label: "수입",
+                            data: income_data, // [65, 59, 80, 81, 56, 55, 40],
+                            backgroundColor: [
+                                'rgba(105, 0, 132, .2)',
+                            ],
+                            borderColor: [
+                                'rgba(200, 99, 132, .7)',
+                            ],
+                            borderWidth: 2
+                        },
+                        {
+                            label: "지출",
+                            data: outcome_data, //[28, 48, 40, 19, 86, 27, 90],
+                            backgroundColor: [
+                                'rgba(0, 137, 132, .2)',
+                            ],
+                            borderColor: [
+                                'rgba(0, 10, 130, .7)',
+                            ],
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+        }).fail((request, status, error) => {
+            alert(request.responseText);
+        })
+    });
+</script>
+
+<!-- End your project here-->
+
+</body>
+</html>

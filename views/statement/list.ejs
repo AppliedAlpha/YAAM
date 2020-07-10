@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  <%- include("../footer"); %>
+  <!-- Start your project here-->
+
+  <%
+  function getFormatDate(date){
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth());
+    var day = date.getDate();
+
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+    return year + '-' + month + '-' + day;
+  }
+  %>
+
+  <button type="button" class="btn btn-purple btn-md"
+  onclick="location.href='/api/statement/new'"
+  >Add</button>
+  <button type="button" class="btn btn-cyan btn-md"
+          id="view">Detail/Modify</button>
+  <button type="button" class="btn btn-red btn-md"
+          id="deleteBtn">Delete</button>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div><label id="today_income"></label></div>
+      <div><label id="today_outcome"></label></div>
+      <div><label id="diff"></label></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="ZipDatatable">
+      <table id="StatementTable" class="table table-responsive-sm">
+        <thead>
+        <tr>
+          <th> </th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(() => {
+      $('#StatementTable').dataTable({
+        paging: true,
+        pagingtype: "simple_numbers",
+        ajax: {
+          data: "json",
+          url: "/api/statement/list",
+          type: "GET",
+        },
+        columns: [
+          {},
+          {"data": "created"},
+          {"data": "description"},
+          {"data": "category"},
+          {"data": "amount"},
+        ],
+        columnDefs: [{
+          orderable: false,
+          className: 'select-checkbox',
+          defaultContent: " ",
+          targets: 0,
+        }],
+        select: {
+          style: 'os',
+          selector: 'td:first-child'
+        },
+      });
+
+      $.ajax({
+        url: "/api/statement/list/total",
+        type: "GET"
+      }).done((result) => {
+        document.getElementById("today_income").innerText = "오늘의 수입: " + result["today_in"].toString();
+        document.getElementById("today_outcome").innerText = "오늘의 지출: " + result["today_out"].toString();
+        document.getElementById("diff").innerText = result["month"].toString() + "월의 자산변동: " + result["month_diff"].toString();
+      }).fail((request, status, error) => {
+        alert(request.responseText);
+      });
+    });
+
+
+    $('#view').click(() => {
+      const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
+      if (selected === undefined) {
+        alert("Nothing Selected!");
+      }
+      else location.href = "/api/statement/" + selected["_id"];
+    });
+
+    $("#deleteBtn").on("click", () => {
+      const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
+      if (selected === undefined) {
+        alert("Nothing Selected!");
+      }
+      else {
+        const result = confirm("Are you sure to delete?");
+        if (result) {
+          $.ajax({
+            url: "/api/statement/" + selected["_id"],
+            type: "DELETE"
+          }).done(() => {
+            alert("Successfully Deleted.");
+            location.reload();
+          }).fail((request, status, error) => {
+            alert(request.responseText);
+          });
+        }
+      }
+    });
+
+  </script>
+
+  <!-- End your project here-->
+
+</body>
+</html>

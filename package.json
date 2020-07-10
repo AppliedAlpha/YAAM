@@ -1,0 +1,21 @@
+{
+    "name": "60-mongodb",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "nodemon -e coffee,js,ejs ./bin/www"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "cookie-parser": "^1.4.5",
+        "debug": "~2.6.9",
+        "dotenv": "^8.2.0",
+        "ejs": "^2.6.2",
+        "express": "^4.16.4",
+        "http-errors": "~1.6.3",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.27.0",
+        "mongoose": "^5.9.17",
+        "morgan": "^1.9.1"
+    }
+}

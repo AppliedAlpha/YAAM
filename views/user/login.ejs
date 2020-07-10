@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  <%- include("../footer"); %>
+<!-- Material form register -->
+<div class="card">
+
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Login</strong>
+    </h5>
+
+    <!--Card content-->
+    <div class="card-body px-lg-5 pt-0">
+
+        <!-- Form -->
+        <form id="loginForm" class="text-center" style="color: #757575;" action="#!">
+
+            <!-- E-mail -->
+            <div class="md-form">
+                <input type="email" id="email" class="form-control" required>
+                <label for="email">Input E-mail</label>
+            </div>
+
+            <!-- Password -->
+            <div class="md-form">
+                <input type="password" id="password" class="form-control" required>
+                <label for="password">Input Password</label>
+            </div>
+
+            <!-- Login button -->
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Login</button>
+
+            <!-- Social register -->
+            <!--
+            <p>or sign up with:</p>
+
+            <a type="button" class="btn-floating btn-fb btn-sm">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a type="button" class="btn-floating btn-tw btn-sm">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a type="button" class="btn-floating btn-li btn-sm">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a type="button" class="btn-floating btn-git btn-sm">
+                <i class="fab fa-github"></i>
+            </a>
+        -->
+        </form>
+        <!-- Form -->
+    </div>
+
+</div>
+<!-- Material form register -->
+<script>
+  $(function () {
+    $("#loginForm").submit((event) => {
+      event.preventDefault();
+      // Submit
+      const email = $("#email").val();
+      const password = $("#password").val();
+
+      $.ajax({
+        url: "/api/user/login",
+        type: "POST",
+        data: { email, password }
+      }).done(() => {
+          // alert("로그인 성공");
+          location.href = "/";
+      }).fail((request, status, error) => {
+        alert(request.responseText);
+      })
+    });
+  });
+</script>
+</body>
+</html>
