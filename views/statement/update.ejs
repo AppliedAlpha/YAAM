@@ -33,6 +33,15 @@
 
         <% } %>
 
+    <div>
+        <label for="target">대상</label>
+        <div></div>
+        <select name="target" id="target">
+            <option value="현금" <% if (result.target === "현금") { %> selected="selected" <% } %>>현금</option>
+            <option value="카드" <% if (result.target === "카드") { %> selected="selected" <% } %>>카드</option>
+        </select>
+    </div>
+
 <div class="md-form">
   <input type="text" id="amount" class="form-control" value="<%= result.amount %>" />
   <label for="amount">금액</label>
@@ -44,14 +53,12 @@
 </div>
 
 <div class="md-form">
-      <input type="text" id="target" class="form-control" value="<%= result.target %>" />
-      <label for="target">대상</label>
-</div>
-
-<div class="md-form">
       <input type="text" id="category" class="form-control" value="<%= result.category %>" />
       <label for="category">분류</label>
 </div>
+    <button type="button" class="btn btn-dark-green btn-md"
+            onclick="location.href='/api/statement/<%= result._id %>'"
+    >Back</button>
 
   <button type="submit" class="btn btn-cyan btn-md"
 
@@ -69,19 +76,25 @@
             const description = $("#description").val();
             const target = $("#target").val();
             const category = $("#category").val();
-            console.log(assortment, amount, description, target, category);
-            // alert(Okay);
 
-            $.ajax({
-                url: "/api/statement/<%= result._id %>",
-                type: "PUT",
-                data: { assortment, amount, description, target, category }
-            }).done(() => {
-                alert("성공적으로 수정되었습니다!");
-                location.href = "/api/statement/<%= result._id %>";
-            }).fail((request, status, error) => {
-                alert(request.responseText);
-            })
+            if (target === "") {
+                alert("대상 미선택");
+            }
+            else {
+                console.log(assortment, amount, description, target, category);
+                // alert(Okay);
+
+                $.ajax({
+                    url: "/api/statement/<%= result._id %>",
+                    type: "PUT",
+                    data: {assortment, amount, description, target, category}
+                }).done(() => {
+                    alert("성공적으로 수정되었습니다!");
+                    location.href = "/api/statement/<%= result._id %>";
+                }).fail((request, status, error) => {
+                    alert(request.responseText);
+                })
+            }
         });
     });
 </script>

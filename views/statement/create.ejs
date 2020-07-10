@@ -25,6 +25,15 @@
     </select>
   </label>
   -->
+    <div>
+        <label for="target">Input target</label>
+        <div></div>
+        <select name="target" id="target">
+            <option value=""></option>
+            <option value="현금">현금</option>
+            <option value="카드">카드</option>
+        </select>
+    </div>
 
   <div class="md-form">
   <input type="text" id="amount" class="form-control" required />
@@ -34,11 +43,6 @@
 <div class="md-form">
   <input type="text" id="description" class="form-control" required />
   <label for="description">Input description</label>
-</div>
-
-<div class="md-form">
-  <input type="text" id="target" class="form-control" required />
-  <label for="target">Input target</label>
 </div>
 
 <div class="md-form">
@@ -60,18 +64,24 @@
       const description = $("#description").val();
       const target = $("#target").val();
       const category = $("#category").val();
-      console.log(assortment, amount, description, target, category);
-      // alert(Okay);
 
-      $.ajax({
-        url: "/api/statement",
-        type: "POST",
-        data: { assortment, amount, description, target, category }
-      }).done(() => {
-        location.href = "/api/statement";
-      }).fail((request, status, error) => {
-        alert(request.responseText);
-      })
+      if (target === "") {
+          alert("대상 미선택");
+      }
+      else {
+          console.log(assortment, amount, description, target, category);
+          // alert(Okay);
+
+          $.ajax({
+              url: "/api/statement",
+              type: "POST",
+              data: {assortment, amount, description, target, category}
+          }).done(() => {
+              location.href = "/api/statement";
+          }).fail((request, status, error) => {
+              alert(request.responseText);
+          })
+      }
     });
   });
 </script>
