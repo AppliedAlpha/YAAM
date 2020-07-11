@@ -45,8 +45,8 @@ const total = (req, res) => {
         var send = {
             "today_in": 0,
             "today_out": 0,
-            "this_month_cash_current": 0,
-            "this_month_card_current": 0,
+            "cash_current": 0,
+            "card_current": 0,
             "month": 0,
             "month_diff": 0,
         };
@@ -61,9 +61,11 @@ const total = (req, res) => {
             if (statement.created.getMonth() + 1 === send["month"]) {
                 send["month_diff"] += (statement.assortment ? 1 : -1) * statement.amount;
             }
+            if (statement.target === "현금") send["cash_current"] += (statement.assortment ? 1 : -1) * statement.amount;
+            else send["card_current"] += (statement.assortment ? 1 : -1) * statement.amount;
         });
         res.json(send);
-    })
+    });
 };
 
 const create = (req, res) => {
@@ -115,7 +117,21 @@ const showCreatePage = (req, res) => {
 };
 
 const showListPage = (req, res) => {
-    res.render("statement/list");
+    var send = {"today_income": 0, "today_outcome": 0};
+    const email = res.locals.user.email;
+
+    StatementModel.find({email: email}, (err, result) => {
+        if (err) return res.status(500).send("Error 500: DB Loading Failed.");
+        result.forEach(statement => {
+            if (getFormatDate(statement.created) === getFormatDate(new Date())) {
+                if (statement.assortment) {
+                    send["today_income"] += statement.amount;
+                }
+                else send["today_outcome"] += statement.amount;
+            }
+        });
+    });
+    res.render("statement/list", send);
 }
 
 const showUpdatePage = (req, res) => {

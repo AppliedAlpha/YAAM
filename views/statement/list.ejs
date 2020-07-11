@@ -29,10 +29,14 @@
 
   <div class="container">
     <div class="jumbotron">
-      <div><label id="today_income"></label></div>
-      <div><label id="today_outcome"></label></div>
-      <div><label id="diff"></label></div>
       <canvas id="doughnutChart"></canvas>
+    </div>
+    <div class="jumbotron">
+        <div><label id="today_income"></label></div>
+        <div><label id="today_outcome"></label></div>
+        <div><label id="diff"></label></div>
+        <div><label id="cash_current"></label></div>
+        <div><label id="card_current"></label></div>
     </div>
   </div>
   <div class="container">
@@ -88,23 +92,26 @@
         document.getElementById("today_outcome").innerText = "오늘의 지출: " + result["today_out"].toString();
         document.getElementById("diff").innerText =
             result["month"].toString() + "월의 자산변동: " + result["month_diff"].toString();
-
-          //doughnut
-          var ctxD = document.getElementById("doughnutChart").getContext('2d');
-          var myLineChart = new Chart(ctxD, {
-              type: 'doughnut',
-              data: {
-                  labels: ["Income", "Outcome"],
-                  datasets: [{
-                      data: [result["today_in"], result["today_out"]],
-                      backgroundColor: ["#F7464A", "#46BFBD"],
-                      hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
-                  }]
-              },
-              options: {
-                  responsive: true
-              }
-          });
+        document.getElementById("cash_current").innerText = "현재 현금 잔액: " + result["cash_current"].toString();
+        document.getElementById("card_current").innerText = "현재 카드 잔액: " + result["card_current"].toString();
+        if (!result["today_in"] && !result["today_out"]) {
+          result["today_in"] = result["today_out"] = 0.1;
+        }
+              var ctxD = document.getElementById("doughnutChart").getContext('2d');
+              var myLineChart = new Chart(ctxD, {
+                  type: 'doughnut',
+                  data: {
+                      labels: ["Income", "Outcome"],
+                      datasets: [{
+                          data: [result["today_in"], result["today_out"]],
+                          backgroundColor: ["#46BFBD", "#F7464A"],
+                          hoverBackgroundColor: ["#5AD3D1", "#FF5A5E"]
+                      }]
+                  },
+                  options: {
+                      responsive: true
+                  }
+              });
       }).fail((request, status, error) => {
         alert(request.responseText);
       });
