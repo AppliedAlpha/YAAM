@@ -16,7 +16,8 @@
       return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
   }
   %>
-
+<div class="container">
+    <div class="my-jumbotron-top">
 <div class="md-form">
   <input type="text" id="assortment" class="form-control"
          value="<%= result.assortment ? "수입" : "지출" %>" readonly />
@@ -46,15 +47,17 @@
 <div class="md-form">
     <input type="text" id="created" class="form-control" value="<%= getFormatDate(result.created) %>" readonly />
     <label for="created">기록일시</label>
+
+    <button type="button" class="btn btn-cyan btn-md"
+            onclick="location.href='/api/statement/'"
+    >Back</button>
+
+    <button type="button" class="btn btn-dark-green btn-md"
+            onclick="location.href='/api/statement/<%= result._id %>/edit'"
+    >Modify</button>
 </div>
-
-<button type="button" class="btn btn-cyan btn-md"
-          onclick="location.href='/api/statement/'"
-          >Back</button>
-
-<button type="button" class="btn btn-dark-green btn-md"
-          onclick="location.href='/api/statement/<%= result._id %>/edit'"
-          >Modify</button>
+</div>
+</div>
 
 </body>
 </html>

@@ -6,7 +6,8 @@
   <%- include("../menu"); %>
   <%- include("../footer"); %>
   <!-- Material input -->
-
+    <div class="container">
+        <div class="my-jumbotron-top">
   <label for="assortment">구분</label>
     <% if (result.assortment) { %>
   <div class="custom-control custom-radio">
@@ -63,7 +64,8 @@
   <button type="submit" class="btn btn-cyan btn-md"
 
   >Save</button>
-
+        </div>
+    </div>
 </form>
 <script>
     $(function () {

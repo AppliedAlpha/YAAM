@@ -14,3 +14,13 @@
     padding: 12px 12px;
     margin-bottom: 16px;
 }
+
+.my-jumbotron-top {
+    background-color: #fff;
+    border-radius: .125rem;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    padding: 12px 12px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
