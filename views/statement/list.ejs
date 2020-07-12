@@ -29,7 +29,11 @@
 
   <div class="container">
     <div class="my-jumbotron">
-      <canvas id="doughnutChart"></canvas>
+      <label>오늘의 수입/지출</label>
+      <div id="chart-div">
+        <canvas id="doughnutChart"></canvas>
+      </div>
+      <div id="no-money">오늘은 수입/지출이 없습니다.</div>
     </div>
   </div>
   <div class="container">
@@ -97,7 +101,11 @@
         document.getElementById("cash_current").innerText = "현재 현금 잔액: " + result["cash_current"].toString();
         document.getElementById("card_current").innerText = "현재 카드 잔액: " + result["card_current"].toString();
         if (!result["today_in"] && !result["today_out"]) {
-          result["today_in"] = result["today_out"] = 0.1;
+          document.getElementById('chart-div').setAttribute('style', 'display:none');
+          document.getElementById('no-money').setAttribute('style', '');
+        } else {
+          document.getElementById('chart-div').setAttribute('style', '');
+          document.getElementById('no-money').setAttribute('style', 'display:none');
         }
               var ctxD = document.getElementById("doughnutChart").getContext('2d');
               var myLineChart = new Chart(ctxD, {
