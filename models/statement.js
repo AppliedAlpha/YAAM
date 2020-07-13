@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const StatementSchema = new mongoose.Schema({
-    assortment: { 
-        type: Boolean, // true: +, false: -
+    assortment: {
+        type: Boolean,
         required: true,
     },
     amount: {

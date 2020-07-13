@@ -1,75 +1,57 @@
-<!--Navbar-->
 <nav class="navbar navbar-expand-lg navbar-dark blue-gradient">
-
-    <!-- Navbar brand -->
     <a class="navbar-brand" href="/"> <img src="/images/icon.png" height="30" class="d-inline-block align-center"
-      alt="" > YAAM</a>
-  
-    <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-      aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
-  
-      <!-- Links -->
-      <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item active"> </li> -->
-        <li class="nav-item">
-          <a class="nav-link" href="/">홈</a>
-        </li>
-        <!--
-        <li class="nav-item">
-          <a class="nav-link" href="/api/movie">Movie</a>
-        </li>
-      -->
-        <li class="nav-item">
-          <a class="nav-link" href="/api/statement">조회</a>
-        </li>
+                                           alt=""> YAAM</a>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/api/stats">통계</a>
-        </li>
-  
-        <!-- Dropdown (Only For Admin) Coming Soon! -->
-        <% if (user !== null && user.role) { %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">관리</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/api/admin/statement">전체조회</a>
-            <a class="dropdown-item" href="/api/admin/data">데이터 관리</a>
-            <a class="dropdown-item" href="/api/admin/user">유저 관리</a>
-          </div>
-        </li>
-        <% } %>
-      </ul>
-      <% if (user === null) { %>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/api/user/login">로그인</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/user/signup">회원가입</a>
-        </li>
-  
-      </ul>
-      <% } else { %>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link"><%= user.name %>님 반갑습니다.</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/api/user/logout">로그아웃</a>
-          </li>
-    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/statement">조회</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/stats">통계</a>
+            </li>
+
+            <!-- Dropdown (Only For Admin) Coming Soon! -->
+            <% if (user !== null && user.role) { %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">관리</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/api/admin/statement">전체조회</a>
+                        <a class="dropdown-item" href="/api/admin/data">데이터 관리</a>
+                        <a class="dropdown-item" href="/api/admin/user">유저 관리</a>
+                    </div>
+                </li>
+            <% } %>
         </ul>
+
+        <% if (user === null) { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/user/login">로그인</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/user/signup">회원가입</a>
+                </li>
+            </ul>
+
+        <% } else { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"><%= user.name %>님 반갑습니다.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/api/user/logout">로그아웃</a>
+                </li>
+            </ul>
         <% } %>
-        
     </div>
-    <!-- Collapsible content -->
-  
-  </nav>
-  <!--/.Navbar-->
+</nav>

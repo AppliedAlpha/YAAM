@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <%- include("../header"); %>
 <body>
-  <%- include("../menu"); %>
-  <%- include("../footer"); %>
-  <!-- Start your project here-->
+<%- include("../menu"); %>
+<%- include("../footer"); %>
 
-  <%
-  function getFormatDate(date){
+<%
+function getFormatDate(date) {
     var year = date.getFullYear();
     var month = (1 + date.getMonth());
     var day = date.getDate();
@@ -16,170 +14,167 @@
     month = month >= 10 ? month : '0' + month;
     day = day >= 10 ? day : '0' + day;
     return year + '-' + month + '-' + day;
-  }
-  %>
+}
+%>
 
-  <div class="container">
+<div class="container">
     <div class="my-jumbotron-top">
-      <label>오늘의 수입/지출</label>
-      <div id="chart-div">
-        <canvas id="doughnutChart"></canvas>
-      </div>
-      <div id="no-money">
-        <p class="my-p" style="text-align: center">오늘은 수입/지출이 없습니다.</p>
-      </div>
+        <label>오늘의 수입/지출</label>
+        <div id="chart-div">
+            <canvas id="doughnutChart"></canvas>
+        </div>
+        <div id="no-money">
+            <p class="my-p" style="text-align: center">오늘은 수입/지출이 없습니다.</p>
+        </div>
     </div>
-  </div>
-  <div class="container">
-  <div class="my-jumbotron-top">
-    <div>
-      <label>오늘의 수입:</label>
-      <label id="today_in"></label>
+</div>
+<div class="container">
+    <div class="my-jumbotron-top">
+        <div>
+            <label>오늘의 수입:</label>
+            <label id="today_in"></label>
+        </div>
+        <div>
+            <label>오늘의 지출:</label>
+            <label id="today_out"></label>
+        </div>
+        <div>
+            <label id="diff_front"></label>
+            <label id="month_diff"></label>
+        </div>
+        <div>
+            <label>현재 현금 잔액:</label>
+            <label id="cash_current"></label>
+        </div>
+        <div>
+            <label>현재 카드 잔액:</label>
+            <label id="card_current"></label>
+        </div>
     </div>
-    <div>
-      <label>오늘의 지출:</label>
-      <label id="today_out"></label>
-    </div>
-    <div>
-      <label id="diff_front"></label>
-      <label id="month_diff"></label>
-    </div>
-    <div>
-      <label>현재 현금 잔액:</label>
-      <label id="cash_current"></label>
-    </div>
-    <div>
-      <label>현재 카드 잔액:</label>
-      <label id="card_current"></label>
-    </div>
-  </div>
-  </div>
-  <div class="container">
+</div>
+<div class="container">
     <div class="ZipDatatable">
-      <table id="StatementTable" class="table table-responsive-sm">
-        <thead>
-        <tr>
-          <th> </th>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+        <table id="StatementTable" class="table table-responsive-sm">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-  </div>
-  <div class="container">
-      <div class="my-jumbotron-top">
-          <button type="button" class="btn btn-purple btn-md"
-                  onclick="location.href='/api/statement/new'"
-          >Add</button>
-          <button type="button" class="btn btn-cyan btn-md"
-                  id="view">Detail/Modify</button>
-          <button type="button" class="btn btn-red btn-md"
-                  id="deleteBtn">Delete</button>
-      </div>
-  </div>
+</div>
+<div class="container">
+    <div class="my-jumbotron-top">
+        <button type="button" class="btn btn-purple btn-md"
+                onclick="location.href='/api/statement/new'"
+        >Add
+        </button>
+        <button type="button" class="btn btn-cyan btn-md"
+                id="view">Detail/Modify
+        </button>
+        <button type="button" class="btn btn-red btn-md"
+                id="deleteBtn">Delete
+        </button>
+    </div>
+</div>
 
-  <script>
+<script>
     $(document).ready(() => {
-      $('#StatementTable').dataTable({
-        paging: true,
-        pagingtype: "simple_numbers",
-        ajax: {
-          data: "json",
-          url: "/api/statement/list",
-          type: "GET",
-        },
-        columns: [
-          {},
-          {"data": "created"},
-          {"data": "description"},
-          {"data": "amount"},
-        ],
-        columnDefs: [{
-          orderable: false,
-          className: 'select-checkbox',
-          defaultContent: " ",
-          targets: 0,
-        }],
-        select: {
-          style: 'os',
-          selector: 'td:first-child'
-        },
-      });
-
-      $.ajax({
-        url: "/api/statement/list/total",
-        type: "GET"
-      }).done((result) => {
-        const list = ["today_in", "today_out", "month_diff", "cash_current", "card_current"];
-        list.forEach(str => {
-          document.getElementById(str).innerText = result[str].toString();
+        $('#StatementTable').dataTable({
+            paging: true,
+            pagingtype: "simple_numbers",
+            ajax: {
+                data: "json",
+                url: "/api/statement/list",
+                type: "GET",
+            },
+            columns: [
+                {},
+                {"data": "created"},
+                {"data": "description"},
+                {"data": "amount"},
+            ],
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                defaultContent: " ",
+                targets: 0,
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
         });
-        document.getElementById("diff_front").innerText = result["month"].toString() + "월의 자산 변동:";
 
-        if (!result["today_in"] && !result["today_out"]) {
-          document.getElementById('chart-div').setAttribute('style', 'display:none');
-          document.getElementById('no-money').setAttribute('style', '');
-        } else {
-          document.getElementById('chart-div').setAttribute('style', '');
-          document.getElementById('no-money').setAttribute('style', 'display:none');
-        }
-              const ctxD = document.getElementById("doughnutChart").getContext('2d');
-              const myLineChart = new Chart(ctxD, {
-                  type: 'doughnut',
-                  data: {
-                      labels: ["Income", "Outcome"],
-                      datasets: [{
-                          data: [result["today_in"], result["today_out"]],
-                          backgroundColor: ["#46BFBD", "#F7464A"],
-                          hoverBackgroundColor: ["#5AD3D1", "#FF5A5E"]
-                      }]
-                  },
-                  options: {
-                      responsive: true
-                  }
-              });
-      }).fail((request, status, error) => {
-        alert(request.responseText);
-      });
+        $.ajax({
+            url: "/api/statement/list/total",
+            type: "GET"
+        }).done((result) => {
+            const list = ["today_in", "today_out", "month_diff", "cash_current", "card_current"];
+            list.forEach(str => {
+                document.getElementById(str).innerText = result[str].toString();
+            });
+            document.getElementById("diff_front").innerText = result["month"].toString() + "월의 자산 변동:";
+
+            if (!result["today_in"] && !result["today_out"]) {
+                document.getElementById('chart-div').setAttribute('style', 'display:none');
+                document.getElementById('no-money').setAttribute('style', '');
+            } else {
+                document.getElementById('chart-div').setAttribute('style', '');
+                document.getElementById('no-money').setAttribute('style', 'display:none');
+            }
+            const ctxD = document.getElementById("doughnutChart").getContext('2d');
+            const myLineChart = new Chart(ctxD, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Income", "Outcome"],
+                    datasets: [{
+                        data: [result["today_in"], result["today_out"]],
+                        backgroundColor: ["#46BFBD", "#F7464A"],
+                        hoverBackgroundColor: ["#5AD3D1", "#FF5A5E"]
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }).fail((request, status, error) => {
+            alert(request.responseText);
+        });
     });
 
 
     $('#view').click(() => {
-      const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
-      if (selected === undefined) {
-        alert("Nothing Selected!");
-      }
-      else location.href = "/api/statement/" + selected["_id"];
+        const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
+        if (selected === undefined) {
+            alert("선택된 항목이 없습니다.");
+        } else location.href = "/api/statement/" + selected["_id"];
     });
 
     $("#deleteBtn").on("click", () => {
-      const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
-      if (selected === undefined) {
-        alert("Nothing Selected!");
-      }
-      else {
-        const result = confirm("Are you sure to delete?");
-        if (result) {
-          $.ajax({
-            url: "/api/statement/" + selected["_id"],
-            type: "DELETE"
-          }).done(() => {
-            alert("Successfully Deleted.");
-            location.reload();
-          }).fail((request, status, error) => {
-            alert(request.responseText);
-          });
+        const selected = $('#StatementTable').DataTable().rows('.selected').data().toArray()["0"];
+        if (selected === undefined) {
+            alert("선택된 항목이 없습니다.");
+        } else {
+            const result = confirm("정말로 이 데이터를 삭제하실건가요?");
+            if (result) {
+                $.ajax({
+                    url: "/api/statement/" + selected["_id"],
+                    type: "DELETE"
+                }).done(() => {
+                    alert("성공적으로 삭제되었습니다.");
+                    location.reload();
+                }).fail((request, status, error) => {
+                    alert(request.responseText);
+                });
+            }
         }
-      }
     });
-
-  </script>
-
-  <!-- End your project here-->
-
+</script>
 </body>
 </html>

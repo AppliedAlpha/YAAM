@@ -3,70 +3,81 @@
 <%- include("../header"); %>
 <body>
 <form id="updateForm">
-  <%- include("../menu"); %>
-  <%- include("../footer"); %>
-  <!-- Material input -->
+    <%- include("../menu"); %>
+    <%- include("../footer"); %>
+
     <div class="container">
         <div class="my-jumbotron-top">
-  <label for="assortment">구분</label>
-    <% if (result.assortment) { %>
-  <div class="custom-control custom-radio">
-      <input type="radio" class="custom-control-input" id="assort0" name="assortment" value=false>
-      <label class="custom-control-label" for="assort0">지출</label>
-  </div>
+            <label for="assortment">구분</label>
+            <% if (result.assortment) { %>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="assort0" name="assortment" value=false>
+                    <label class="custom-control-label" for="assort0">지출</label>
+                </div>
 
-  <div class="custom-control custom-radio">
-      <input type="radio" class="custom-control-input" id="assort1" name="assortment" value=true checked>
-      <label class="custom-control-label" for="assort1">수입</label>
-  </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="assort1" name="assortment" value=true checked>
+                    <label class="custom-control-label" for="assort1">수입</label>
+                </div>
 
-        <% } else { %>
+            <% } else { %>
 
-        <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="assort0" name="assortment" value=false checked>
-            <label class="custom-control-label" for="assort0">지출</label>
-        </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="assort0" name="assortment" value=false checked>
+                    <label class="custom-control-label" for="assort0">지출</label>
+                </div>
 
-        <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="assort1" name="assortment" value=true>
-            <label class="custom-control-label" for="assort1">수입</label>
-        </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" id="assort1" name="assortment" value=true>
+                    <label class="custom-control-label" for="assort1">수입</label>
+                </div>
 
-        <% } %>
+            <% } %>
 
-    <div>
-        <label for="target">대상</label>
-        <div></div>
-        <select name="target" id="target">
-            <option value="현금" <% if (result.target === "현금") { %> selected="selected" <% } %>>현금</option>
-            <option value="카드" <% if (result.target === "카드") { %> selected="selected" <% } %>>카드</option>
-        </select>
-    </div>
+            <div>
+                <label for="target">대상</label>
+                <div></div>
+                <select name="target" id="target">
+                    <option value="현금"
+                    <% if (result.target === "현금") { %> selected="selected"
+                            <% } %>
+                    >현금
+                    </option>
+                    <option value="카드"
+                    <% if (result.target === "카드") { %> selected="selected"
+                            <% } %>
+                    >카드
+                    </option>
+                </select>
+            </div>
 
-<div class="md-form">
-  <input type="text" id="amount" class="form-control" value="<%= result.amount %>" />
-  <label for="amount">금액</label>
-</div>
+            <div class="md-form">
+                <input type="text" id="amount" class="form-control" value="<%= result.amount %>"/>
+                <label for="amount">금액</label>
+            </div>
 
-<div class="md-form">
-  <input type="text" id="description" class="form-control" value="<%= result.description %>" />
-  <label for="description">상세내역</label>
-</div>
+            <div class="md-form">
+                <input type="text" id="description" class="form-control" value="<%= result.description %>"/>
+                <label for="description">상세내역</label>
+            </div>
 
-<div class="md-form">
-      <input type="text" id="category" class="form-control" value="<%= result.category %>" />
-      <label for="category">분류</label>
-</div>
-    <button type="button" class="btn btn-dark-green btn-md"
-            onclick="location.href='/api/statement/<%= result._id %>'"
-    >Back</button>
+            <div class="md-form">
+                <input type="text" id="category" class="form-control" value="<%= result.category %>"/>
+                <label for="category">분류</label>
+            </div>
+            <button type="button" class="btn btn-dark-green btn-md"
+                    onclick="location.href='/api/statement/<%= result._id %>'"
+            >Back
+            </button>
 
-  <button type="submit" class="btn btn-cyan btn-md"
+            <button type="submit" class="btn btn-cyan btn-md"
 
-  >Save</button>
+            >Save
+            </button>
         </div>
     </div>
 </form>
+
 <script>
     $(function () {
         $("#updateForm").submit((event) => {
@@ -80,12 +91,9 @@
             const category = $("#category").val();
 
             if (target === "") {
-                alert("대상 미선택");
-            }
-            else {
-                console.log(assortment, amount, description, target, category);
-                // alert(Okay);
-
+                alert("선택하지 않은 항목이 존재합니다.");
+            } else {
+                // console.log(assortment, amount, description, target, category);
                 $.ajax({
                     url: "/api/statement/<%= result._id %>",
                     type: "PUT",

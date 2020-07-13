@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <%- include("header"); %>
 <body>
 <%- include("menu"); %>
 <%- include("footer"); %>
-<!-- Start your project here-->
 
 <div class="container">
     <div class="my-jumbotron-top">
-                    <label>최근 7일간 수입/지출 그래프</label>
-                    <canvas id="lineChart"></canvas>
+        <label>최근 7일간 수입/지출 그래프</label>
+        <canvas id="lineChart"></canvas>
     </div>
 </div>
-
 <div class="container">
     <div class="my-jumbotron-top">
         <p class="my-p" style="text-align: center; color: dodgerblue">더 자세한 통계는 준비 중입니다!</p>
@@ -21,7 +18,8 @@
     <div>
         <button type="button" class="btn btn-purple btn-md"
                 onclick="location.href='/api/statement/'"
-        >List</button>
+        >List
+        </button>
     </div>
 </div>
 
@@ -31,9 +29,9 @@
             url: "/api/stats/get",
             type: "GET",
         }).done((result) => {
-            var label = [];
-            var income_data = [];
-            var outcome_data = [];
+            const label = [];
+            const income_data = [];
+            const outcome_data = [];
 
             result.forEach(statement => {
                 label.push(statement.month.toString() + "/" + statement.date.toString());
@@ -41,11 +39,11 @@
                 outcome_data.push(statement.outcome);
             });
 
-            var ctxL = document.getElementById("lineChart").getContext('2d');
-            var resChart = new Chart(ctxL, {
+            const ctxL = document.getElementById("lineChart").getContext('2d');
+            const resChart = new Chart(ctxL, {
                 type: 'line',
                 data: {
-                    labels: label, //["January", "February", "March", "April", "May", "June", "July"],
+                    labels: label,
                     datasets: [
                         {
                             label: "수입",
@@ -75,14 +73,10 @@
                     responsive: true
                 }
             });
-
         }).fail((request, status, error) => {
             alert(request.responseText);
         })
     });
 </script>
-
-<!-- End your project here-->
-
 </body>
 </html>

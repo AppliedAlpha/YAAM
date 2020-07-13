@@ -2,66 +2,40 @@
 <html lang="en">
 <%- include("header"); %>
 <body>
-  <%- include("menu"); %>
-  <%- include("footer"); %>
-  <!-- Start your project here-->  
-  <!-- Jumbotron -->
-  <div class="container">
-<div class="my-jumbotron-top text-center">
+<%- include("menu"); %>
+<%- include("footer"); %>
 
-  <!-- Card Light -->
-  <div class="card card-image"
-       style="background-image: url(/images/title.jpg); background-position: center; background-repeat: no-repeat;
+<div class="container">
+    <div class="my-jumbotron-top text-center">
+        <div class="card card-image"
+             style="background-image: url(/images/title.jpg); background-position: center; background-repeat: no-repeat;
   background-size: auto;">
-
-
-    <!-- Card content -->
-    <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
-    <div class="card-body">
-      <!-- Title -->
-      <h4 class="card-title">YAAM</h4>
-      <h6>~ Yet Another Asset Manager ~</h6>
-
-      <!-- Text -->
-      <p class="card-text">간편한 자금 관리를 도와주는 온라인 가계부 플랫폼</p>
-      <!-- Link -->
-      <a href="/api/statement" class="black-text">
-        <h6 style="color: #00acc1">시작하기 <i class="fas fa-angle-double-right"></i></h6>
-      </a>
-
+            <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
+                <div class="card-body">
+                    <h4 class="card-title">YAAM</h4>
+                    <h6>~ Yet Another Asset Manager ~</h6>
+                    <p class="card-text">간편한 자금 관리를 도와주는 온라인 가계부 플랫폼</p>
+                    <a href="/api/statement" class="black-text">
+                        <h6 style="color: #00acc1">시작하기 <i class="fas fa-angle-double-right"></i></h6>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  </div>
+    <div class="my-jumbotron-top text-center">
+        <div class="card card-image"
+             style="background-image: url(/images/title2.jpg); background-position: center; background-repeat: no-repeat;
+  background-size: auto;">
+            <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
+                <div style="margin-left: auto; margin-right: auto;">
+                    <h5 class="orange-text"><i class="fas fa-chart-pie"></i> Statistics</h5>
+                    <h3 class="card-title pt-2"><strong>통계 분석</strong></h3>
+                    <p>최근 7일간의 소비/지출 내역을 간단한 차트로 나타냈습니다! 당신의 일주일 소비 습관은 어땠나요?</p>
+                    <a href="/api/stats" class="btn btn-light-blue"><i class="fas fa-clone left"></i> 보러가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-  <!-- Card Light -->
-
-  <div class="my-jumbotron-top text-center">
-  <!-- Card Dark -->
-
-  <!-- Card -->
-  <div class="card card-image"
-       style="background-image: url(/images/title2.jpg); background-position: center; background-repeat: no-repeat;
-  background-size: auto;">
-
-    <!-- Content -->
-    <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
-      <div style="margin-left: auto; margin-right: auto;">
-        <h5 class="orange-text"><i class="fas fa-chart-pie"></i> Statistics</h5>
-        <h3 class="card-title pt-2"><strong>통계 분석</strong></h3>
-        <p>최근 7일간의 소비/지출 내역을 간단한 차트로 나타냈습니다! 당신의 일주일 소비 습관은 어땠나요?</p>
-        <a href="/api/stats" class="btn btn-light-blue"><i class="fas fa-clone left"></i> 보러가기</a>
-      </div>
-    </div>
-
-  </div>
-  </div>
-  <!-- Card -->
-
-  </div>
-<!-- Jumbotron -->
-  <!-- End your project here-->
-
-
 </body>
 </html>

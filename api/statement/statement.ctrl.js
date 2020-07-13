@@ -1,6 +1,7 @@
 const StatementModel = require("../../models/statement");
 const mongoose = require("mongoose");
 
+// Returns date object to formatted string
 const getFormatDate = (date) => {
     var year = date.getFullYear();
     var month = (1 + date.getMonth());
@@ -11,14 +12,18 @@ const getFormatDate = (date) => {
     return year + '-' + month + '-' + day;
 };
 
+
+// Checks if parameter id is valid or not
 const checkId = (req, res, next) => {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send("Error 400: Unvalid ID.");
+        return res.status(400).send("Error 400: 아이디가 유효하지 않습니다.");
     }
     next();
 };
 
+
+// GET Request for listing process
 const list = (req, res) => {
     const email = res.locals.user.email;
 
@@ -34,15 +39,17 @@ const list = (req, res) => {
             });
         });
         res.json({"data": send});
-    }).sort({created: -1}); // -1: DESC
+    }).sort({created: -1});
 };
 
+
+// GET Request for simple stats calculating process
 const total = (req, res) => {
     const email = res.locals.user.email;
 
     StatementModel.find({email: email}, (err, result) => {
         if (err) return res.status(500).send("Error 500: DB Loading Failed.");
-        var send = {
+        const send = {
             "today_in": 0,
             "today_out": 0,
             "cash_current": 0,
@@ -55,8 +62,7 @@ const total = (req, res) => {
             if (getFormatDate(statement.created) === getFormatDate(new Date())) {
                 if (statement.assortment) {
                     send["today_in"] += statement.amount;
-                }
-                else send["today_out"] += statement.amount;
+                } else send["today_out"] += statement.amount;
             }
             if (statement.created.getMonth() + 1 === send["month"]) {
                 send["month_diff"] += (statement.assortment ? 1 : -1) * statement.amount;
@@ -68,80 +74,99 @@ const total = (req, res) => {
     });
 };
 
+
+// POST Request for making a new statement
 const create = (req, res) => {
-    const { assortment, amount, description, target, category } = req.body;
+    const {assortment, amount, description, target, category} = req.body;
     const email = res.locals.user.email;
     if (!assortment || !amount || !description || !target || !category || !email) {
-        return res.status(400).send("Error 400: Required Input is not given.");
+        return res.status(400).send("Error 400: 입력값이 올바르지 않습니다.");
     }
 
-    StatementModel.create({ assortment, amount, description, target, category, email }, (err, result) => {
-        if (err) return res.status(500).send("Error 500: Creating Error Occured.");
-        res.status(201).send("Successfully Created Statement Data.");
+    StatementModel.create({assortment, amount, description, target, category, email}, (err, result) => {
+        if (err) return res.status(500).send("Error 500: 생성 도중 오류가 발생했습니다.");
+        res.status(201).send("OK 201");
     });
 };
 
+
+// GET Request for showing detail of a statement
 const detail = (req, res) => {
     const id = req.params.id;
 
-    StatementModel.findOne({ _id: id }, (err, result) => {
-        if (err) return res.status(500).send("Error 500: DB Finding Error Occured.");
-        if (!result) return res.status(404).send("Error 404: Not Found.");
+    StatementModel.findOne({_id: id}, (err, result) => {
+        if (err) return res.status(500).send("Error 500: 로드 도중 오류가 발생했습니다.");
+        if (!result) return res.status(404).send("Error 404: 파일을 찾을 수 없었습니다.");
         res.render("statement/detail", {result});
     });
 };
 
+
+// DELETE Request for a statement
 const remove = (req, res) => {
     const id = req.params.id;
 
     StatementModel.findByIdAndDelete(id, (err, result) => {
-        if (err) return res.status(500).send("Error 500: Erasing Error Occured.");
-        if (!result) return res.status(404).send("Error 404: Not Found");
+        if (err) return res.status(500).send("Error 500: 삭제 도중 오류가 발생했습니다.");
+        if (!result) return res.status(404).send("Error 404: 파일을 찾을 수 없었습니다.");
         res.json(result);
     });
 };
 
+
+// POST Request for updating a statement
 const update = (req, res) => {
     const id = req.params.id;
-    const { assortment, amount, description, target, category } = req.body;
+    const {assortment, amount, description, target, category} = req.body;
 
-    StatementModel.findByIdAndUpdate(id, { assortment, amount, description, target, category }, { new: true }, (err, result) => {
-        if (err) return res.status(500).send("Error 500: DB Finding Error Occured.");
-        if (!result) return res.status(404).send("Error 404: Not Found.");
+    StatementModel.findByIdAndUpdate(id, {
+        assortment,
+        amount,
+        description,
+        target,
+        category
+    }, {new: true}, (err, result) => {
+        if (err) return res.status(500).send("Error 500: 로드 도중 오류가 발생했습니다.");
+        if (!result) return res.status(404).send("Error 404: 파일을 찾을 수 없었습니다.");
         res.json(result);
     });
 };
 
+
+// Rendering create page
 const showCreatePage = (req, res) => {
     res.render("statement/create");
 };
 
+
+// Rendering list page
 const showListPage = (req, res) => {
     var send = {"today_income": 0, "today_outcome": 0};
     const email = res.locals.user.email;
 
     StatementModel.find({email: email}, (err, result) => {
-        if (err) return res.status(500).send("Error 500: DB Loading Failed.");
+        if (err) return res.status(500).send("Error 500: 로드 도중 오류가 발생했습니다.");
         result.forEach(statement => {
             if (getFormatDate(statement.created) === getFormatDate(new Date())) {
                 if (statement.assortment) {
                     send["today_income"] += statement.amount;
-                }
-                else send["today_outcome"] += statement.amount;
+                } else send["today_outcome"] += statement.amount;
             }
         });
     });
     res.render("statement/list", send);
 }
 
+
+// Rendering update page
 const showUpdatePage = (req, res) => {
     const id = req.params.id;
 
     StatementModel.findById(id, (err, result) => {
-        if (err) return res.status(500).send("Error 500: DB Finding Error Occured.");
-        if (!result) return res.status(404).send("Error 404: Not Found.");
-        res.render("statement/update", { result });
+        if (err) return res.status(500).send("Error 500: 로드 도중 오류가 발생했습니다.");
+        if (!result) return res.status(404).send("Error 404: 파일을 찾을 수 없었습니다.");
+        res.render("statement/update", {result});
     });
 };
 
-module.exports = { list, create, checkId, total, detail, remove, update, showListPage, showCreatePage, showUpdatePage };
+module.exports = {list, create, checkId, total, detail, remove, update, showListPage, showCreatePage, showUpdatePage};
