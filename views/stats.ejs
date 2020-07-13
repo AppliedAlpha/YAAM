@@ -8,24 +8,22 @@
 <!-- Start your project here-->
 
 <div class="container">
-    <div class="m-2"></div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <label>수입/지출 그래프</label>
+    <div class="my-jumbotron-top">
+                    <label>최근 7일간 수입/지출 그래프</label>
                     <canvas id="lineChart"></canvas>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
-<button type="button" class="btn btn-purple btn-md"
-        onclick="location.href='/api/statement/'"
->List</button>
+<div class="container">
+    <div class="my-jumbotron-top">
+        <p class="my-p" style="text-align: center; color: dodgerblue">더 자세한 통계는 준비 중입니다!</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-purple btn-md"
+                onclick="location.href='/api/statement/'"
+        >List</button>
+    </div>
+</div>
 
 <script>
     $(document).ready(() => {
@@ -53,10 +51,10 @@
                             label: "수입",
                             data: income_data, // [65, 59, 80, 81, 56, 55, 40],
                             backgroundColor: [
-                                'rgba(105, 0, 132, .2)',
+                                'rgba(0, 137, 132, .2)',
                             ],
                             borderColor: [
-                                'rgba(200, 99, 132, .7)',
+                                'rgba(0, 10, 130, .7)',
                             ],
                             borderWidth: 2
                         },
@@ -64,10 +62,10 @@
                             label: "지출",
                             data: outcome_data, //[28, 48, 40, 19, 86, 27, 90],
                             backgroundColor: [
-                                'rgba(0, 137, 132, .2)',
+                                'rgba(105, 0, 132, .2)',
                             ],
                             borderColor: [
-                                'rgba(0, 10, 130, .7)',
+                                'rgba(200, 99, 132, .7)',
                             ],
                             borderWidth: 2
                         }

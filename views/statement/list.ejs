@@ -19,30 +19,39 @@
   }
   %>
 
-  <button type="button" class="btn btn-purple btn-md"
-  onclick="location.href='/api/statement/new'"
-  >Add</button>
-  <button type="button" class="btn btn-cyan btn-md"
-          id="view">Detail/Modify</button>
-  <button type="button" class="btn btn-red btn-md"
-          id="deleteBtn">Delete</button>
-
   <div class="container">
-    <div class="my-jumbotron">
+    <div class="my-jumbotron-top">
       <label>오늘의 수입/지출</label>
       <div id="chart-div">
         <canvas id="doughnutChart"></canvas>
       </div>
-      <div id="no-money">오늘은 수입/지출이 없습니다.</div>
+      <div id="no-money">
+        <p class="my-p" style="text-align: center">오늘은 수입/지출이 없습니다.</p>
+      </div>
     </div>
   </div>
   <div class="container">
-  <div class="my-jumbotron">
-    <div><label id="today_income"></label></div>
-    <div><label id="today_outcome"></label></div>
-    <div><label id="diff"></label></div>
-    <div><label id="cash_current"></label></div>
-    <div><label id="card_current"></label></div>
+  <div class="my-jumbotron-top">
+    <div>
+      <label>오늘의 수입:</label>
+      <label id="today_in"></label>
+    </div>
+    <div>
+      <label>오늘의 지출:</label>
+      <label id="today_out"></label>
+    </div>
+    <div>
+      <label id="diff_front"></label>
+      <label id="month_diff"></label>
+    </div>
+    <div>
+      <label>현재 현금 잔액:</label>
+      <label id="cash_current"></label>
+    </div>
+    <div>
+      <label>현재 카드 잔액:</label>
+      <label id="card_current"></label>
+    </div>
   </div>
   </div>
   <div class="container">
@@ -60,6 +69,17 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="container">
+      <div class="my-jumbotron-top">
+          <button type="button" class="btn btn-purple btn-md"
+                  onclick="location.href='/api/statement/new'"
+          >Add</button>
+          <button type="button" class="btn btn-cyan btn-md"
+                  id="view">Detail/Modify</button>
+          <button type="button" class="btn btn-red btn-md"
+                  id="deleteBtn">Delete</button>
+      </div>
   </div>
 
   <script>
@@ -94,12 +114,12 @@
         url: "/api/statement/list/total",
         type: "GET"
       }).done((result) => {
-        document.getElementById("today_income").innerText = "오늘의 수입: " + result["today_in"].toString();
-        document.getElementById("today_outcome").innerText = "오늘의 지출: " + result["today_out"].toString();
-        document.getElementById("diff").innerText =
-            result["month"].toString() + "월의 자산변동: " + result["month_diff"].toString();
-        document.getElementById("cash_current").innerText = "현재 현금 잔액: " + result["cash_current"].toString();
-        document.getElementById("card_current").innerText = "현재 카드 잔액: " + result["card_current"].toString();
+        const list = ["today_in", "today_out", "month_diff", "cash_current", "card_current"];
+        list.forEach(str => {
+          document.getElementById(str).innerText = result[str].toString();
+        });
+        document.getElementById("diff_front").innerText = result["month"].toString() + "월의 자산 변동:";
+
         if (!result["today_in"] && !result["today_out"]) {
           document.getElementById('chart-div').setAttribute('style', 'display:none');
           document.getElementById('no-money').setAttribute('style', '');
@@ -107,8 +127,8 @@
           document.getElementById('chart-div').setAttribute('style', '');
           document.getElementById('no-money').setAttribute('style', 'display:none');
         }
-              var ctxD = document.getElementById("doughnutChart").getContext('2d');
-              var myLineChart = new Chart(ctxD, {
+              const ctxD = document.getElementById("doughnutChart").getContext('2d');
+              const myLineChart = new Chart(ctxD, {
                   type: 'doughnut',
                   data: {
                       labels: ["Income", "Outcome"],

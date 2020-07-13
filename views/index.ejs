@@ -6,26 +6,55 @@
   <%- include("footer"); %>
   <!-- Start your project here-->  
   <!-- Jumbotron -->
-<div class="jumbotron text-center">
+<div class="my-jumbotron-top text-center">
 
-  <!-- Title -->
-  <h4 class="card-title h4 pb-2"><strong>Hello, Node.js!</strong></h4>
+  <!-- Card Light -->
+  <div class="card card-image"
+       style="background-image: url(/images/title.jpg); background-position: center; background-repeat: no-repeat;
+  background-size: auto;">
 
-  <!-- Card image -->
-  <style>
-    img { display: block; margin: 0px auto; }
-  </style>
 
-  <h5 class="indigo-text h5 mb-4">2020 Node.js Class</h5>
+    <!-- Card content -->
+    <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
+    <div class="card-body">
+      <!-- Title -->
+      <h4 class="card-title">YAAM</h4>
+      <h6>~ Yet Another Asset Manager ~</h6>
 
-  <p class="card-text">What Should I Do?</p>
+      <!-- Text -->
+      <p class="card-text">간편한 자금 관리를 도와주는 온라인 가계부 플랫폼</p>
+      <!-- Link -->
+      <a href="/api/statement" class="black-text">
+        <h6 style="color: #00acc1">시작하기 <i class="fas fa-angle-double-right"></i></h6>
+      </a>
 
-  <!-- Linkedin -->
-  <a class="fa-lg p-2 m-2 li-ic"><i class="fab fa-linkedin-in grey-text"></i></a>
-  <!-- Twitter -->
-  <a class="fa-lg p-2 m-2 tw-ic"><i class="fab fa-twitter grey-text"></i></a>
-  <!-- Dribbble -->
-  <a class="fa-lg p-2 m-2 fb-ic"><i class="fab fa-facebook-f grey-text"></i></a>
+    </div>
+  </div>
+
+  </div>
+  <!-- Card Light -->
+
+  <div class="my-jumbotron-top text-center">
+  <!-- Card Dark -->
+
+  <!-- Card -->
+  <div class="card card-image"
+       style="background-image: url(/images/title2.jpg); background-position: center; background-repeat: no-repeat;
+  background-size: auto;">
+
+    <!-- Content -->
+    <div class="text-white d-flex align-items-center rgba-black-strong py-5 px-4">
+      <div style="margin-left: auto; margin-right: auto;">
+        <h5 class="orange-text"><i class="fas fa-chart-pie"></i> Statistics</h5>
+        <h3 class="card-title pt-2"><strong>통계 분석</strong></h3>
+        <p>최근 7일간의 소비/지출 내역을 간단한 차트로 나타냈습니다! 당신의 일주일 소비 습관은 어땠나요?</p>
+        <a href="/api/stats" class="btn btn-light-blue"><i class="fas fa-clone left"></i> 보러가기</a>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <!-- Card -->
 
 </div>
 <!-- Jumbotron -->
