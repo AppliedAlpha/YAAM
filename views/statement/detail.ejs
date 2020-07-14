@@ -48,14 +48,14 @@ function getFormatDate(date) {
             <input type="text" id="created" class="form-control" value="<%= getFormatDate(result.created) %>" readonly/>
             <label for="created">기록일시</label>
 
-            <button type="button" class="btn btn-cyan btn-md"
+            <button type="button" class="btn btn-blue btn-md"
                     onclick="location.href='/api/statement/'"
-            >Back
+            >뒤로
             </button>
 
-            <button type="button" class="btn btn-dark-green btn-md"
+            <button type="button" class="btn btn-deep-orange btn-md"
                     onclick="location.href='/api/statement/<%= result._id %>/edit'"
-            >Modify
+            >수정하기
             </button>
         </div>
     </div>
